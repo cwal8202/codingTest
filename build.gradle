@@ -1,0 +1,53 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.2.2'
+	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+}
+
+group = 'shop.mtcoding'
+version = '0.0.1-SNAPSHOT'
+
+java {
+	sourceCompatibility = '17'
+}
+
+configurations {
+	compileOnly {
+		extendsFrom annotationProcessor
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	// JAP, 마이바티스, JSP 선택 가능 
+	//implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	//implementation 'org.springframework.boot:spring-boot-starter-mustache
+	
+	/******** 따로 추가한 디펜던시 24.02.08 *********/
+	// spring boot에서 JSP 엔진을 포함하고 있지 않으므로 따로 추가함.
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	// jsp의 테그 라이브러리 jstl 추가.
+	// implementation 'javax.servlet:jstl' 사용 안됨
+	implementation group: 'org.glassfish.web', name: 'jakarta.servlet.jsp.jstl', version: '2.0.0'
+
+	// mybatis 
+	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:3.0.3'
+	// implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.0'
+	/************************************************/
+	
+	
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	compileOnly 'org.projectlombok:lombok'
+	developmentOnly 'org.springframework.boot:spring-boot-devtools'
+//	runtimeOnly 'com.h2database:h2'
+	runtimeOnly 'com.mysql:mysql-connector-j'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}

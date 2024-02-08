@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper
+	namespace="com.tenco.blog.repository.interfaces.BoardRepository">
+	<!-- insert -->
+	<insert id="insertBoard">insert into board(title, content, author)
+		values(#{title}, #{content}, #{author});
+	</insert>
+
+	<!-- selecet -->
+	<select id="findById"
+		resultType="com.tenco.blog.repository.entity.BoardEntity">
+		SELECT * FROM board.board where id = #{id}
+	</select>
+	<select id="findAll"
+		resultType="com.tenco.blog.repository.entity.BoardEntity">
+		SELECT * FROM board.board
+	</select>
+	<select id="getPageList" parameterType="Map"
+		resultType="com.tenco.blog.repository.entity.BoardEntity">
+		SELECT * FROM (
+			SELECT row_number() OVER (order by id) AS row_num, b.* FROM board b) board
+				WHERE row_num BETWEEN #{startNo} AND #{endNo};
+	</select>
+	<select id="getCount" resultType="int">
+		select count(*) from board;
+	</select>
+
+	<!-- update -->
+	<update id="updateById">
+		update board set title = #{title}, content =
+		#{content}, author = #{author}
+		where id = #{id};
+	</update>
+
+	<!-- delete -->
+	<delete id="deleteById">
+		delete from board where id = #{id};
+	</delete>
+</mapper>
